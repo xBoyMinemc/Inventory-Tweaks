@@ -11,7 +11,7 @@ world.events.beforeChat.subscribe(msg => {
 
 
     let inv = sender
-    if (mm.startsWith("r") || mm.startsWith("c")) {
+    if (!(mm.startsWith("r") || mm.startsWith("c"))) return;
         let mmm = mm.slice(1);
         if (!(mmm == "" || mmm.startsWith(" "))) return;
         msg.cancel = true;
@@ -112,12 +112,8 @@ world.events.beforeChat.subscribe(msg => {
                 inv.getComponent("inventory").container.setItem(i, item)
             })
 
-    }
+    
 })
-
-
-
-
 
 
 
