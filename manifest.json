@@ -3,15 +3,15 @@
     "header": {
         "description": "聊天栏输入r整理背包\n对着箱子输入c整理箱子\n输入r help或c help获取帮助信息\nr或c大小写的整理顺序相反\n####玩耍QQ群：1035728204\n作者:云梦梦梦子\n机构:云梦•云梦泽\n有事没事来吹水啊，mc群除了mc什么都聊哒\n群里人才很多，说话又好听，留英博士，留美学生，985保送，大烧零，孬loli正太少爷应有尽有，更有开服多年穷如狗的哈皮管理",
         "name": "§2§lR键整理-聊天栏版",
-        "uuid": "9b800341-cf5f-bb2e-de3f-0a6d1d5323e0",
-        "version": [0, 0, 1],
-        "min_engine_version": [ 1, 18, 0 ]
+        "uuid": "9b800341-cf5f-bb2e-de3f-0a6d1d5323e1",
+        "version": [0, 0, 2],
+        "min_engine_version": [ 1, 19, 0 ]
     },
     "modules": [
         {
             "description": "Plugin Module",
             "type": "javascript",
-            "uuid": "10101e99-abb4-448d-b57f-71e9d986353b",
+            "uuid": "10101e99-abb4-448d-b57f-71e9d986353c",
             "version": [0, 0, 1],
             "entry": "scripts/main/main.js"
         }
