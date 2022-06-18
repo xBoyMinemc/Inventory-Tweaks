@@ -1,6 +1,6 @@
 import { world, ItemStack, MinecraftItemTypes } from "mojang-minecraft";
 import { xbLang } from "../xpackage/lang-test.js";
-//https://github.com/xboyMinemc/Dungeon/blob/master/Behavior/scripts/lib/xboyTools/r.js
+//https://github.com/xBoyMinemc/Inventory-Tweaks/edit/main/scripts/lib/xboyTools/r.js
 
 
 
