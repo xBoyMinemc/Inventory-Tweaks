@@ -10,7 +10,7 @@
     "modules": [
         {
             "description": "Plugin Module",
-            "type": "javascript",
+            "type": "script",
             "uuid": "10101e99-abb4-448d-b57f-71e9d986353c",
             "version": [0, 0, 1],
             "entry": "scripts/main/main.js"
