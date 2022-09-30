@@ -11,7 +11,7 @@
         {
             "description": "Plugin Module",
             "type": "script",
-            "uuid": "10101e99-abb4-448d-b57f-71e9d986353c",
+            "uuid": "10101e99-abb4-448d-b57f-71e9d986353d",
             "version": [1, 0, 0],
             "entry": "scripts/main/main.js"
         }
