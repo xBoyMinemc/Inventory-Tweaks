@@ -173,8 +173,11 @@ const xInventoryTweaks = function (msg) {
 
 }
 
+
 const newSort =(x,y,sender)=>{
     // sender.runCommand("me "+x+">"+y+"===>"+(x>y))
+    
+    //console.log(x>y)
     if(typeof x === typeof y && typeof x === "string" && x.length !== y.length){
         let poi = 0;
         while(x[poi] == y[poi])
@@ -184,23 +187,25 @@ const newSort =(x,y,sender)=>{
         /*
         掐头
         */
+        //console.log(JSON.stringify(x),JSON.stringify(y))
         while(x.length > y.length)
-            y+=" "
+            y=" "+y
         while(x.length < y.length)
-            x+=" "
+            x=" "+x
         /*
         补中
         */
-        
+        //console.log(JSON.stringify(x),JSON.stringify(y))
         while(x[x.length-1] == y[y.length-1])
         {
-            x=x.slice(0,x.length-2)
-            y=y.slice(0,y.length-2)
+            x=x.slice(0,x.length-1)
+            y=y.slice(0,y.length-1)
         /*
         去尾
         */
         }
 
+        //console.log(JSON.stringify(x),JSON.stringify(y))
         if(!isNaN(Number(x))&&!isNaN(Number(y)))
         {
             x=Number(x)
@@ -211,7 +216,6 @@ const newSort =(x,y,sender)=>{
     }
     return x > y;
 }
-
 
 world.events.beforeChat.subscribe(msg => {
 
