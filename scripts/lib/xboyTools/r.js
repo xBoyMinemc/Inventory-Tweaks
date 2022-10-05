@@ -151,14 +151,19 @@ const xInventoryTweaks = function (msg) {
 
     xboySort()
     let diff = 0;
+
     items.sort((x, y) => newSort(x[xboy] , y[xboy],sender) ? a : z)
         .forEach((item, i) => {
             // inv.getComponent("inventory").container.setItem(i, item)
             // sender.runCommand("me "+diff)
             i-=diff
-            inv.getComponent("inventory").container.setItem(i>26?i-27:i+9, item)
+            if(mm.startsWith("c"))
+                inv.getComponent("inventory").container.setItem(i>26?i-27:i+9, item)
+            else
+                inv.getComponent("inventory").container.setItem(i, item)
             if(!item || !item.id)diff++;
         })
+    if(mm.startsWith("c"))
     while(diff)
         inv.getComponent("inventory").container.setItem(
             (
@@ -170,14 +175,17 @@ const xInventoryTweaks = function (msg) {
             ),
             new ItemStack(MinecraftItemTypes.cake,0)
         )
+    else
+    while(diff)
+        inv.getComponent("inventory").container.setItem(
+            i,
+            new ItemStack(MinecraftItemTypes.cake,0)
+        )
 
 }
 
-
 const newSort =(x,y,sender)=>{
     // sender.runCommand("me "+x+">"+y+"===>"+(x>y))
-    
-    //console.log(x>y)
     if(typeof x === typeof y && typeof x === "string" && x.length !== y.length){
         let poi = 0;
         while(x[poi] == y[poi])
@@ -187,7 +195,6 @@ const newSort =(x,y,sender)=>{
         /*
         掐头
         */
-        //console.log(JSON.stringify(x),JSON.stringify(y))
         while(x.length > y.length)
             y=" "+y
         while(x.length < y.length)
@@ -195,7 +202,7 @@ const newSort =(x,y,sender)=>{
         /*
         补中
         */
-        //console.log(JSON.stringify(x),JSON.stringify(y))
+        
         while(x[x.length-1] == y[y.length-1])
         {
             x=x.slice(0,x.length-1)
@@ -205,7 +212,6 @@ const newSort =(x,y,sender)=>{
         */
         }
 
-        //console.log(JSON.stringify(x),JSON.stringify(y))
         if(!isNaN(Number(x))&&!isNaN(Number(y)))
         {
             x=Number(x)
@@ -216,6 +222,7 @@ const newSort =(x,y,sender)=>{
     }
     return x > y;
 }
+
 
 world.events.beforeChat.subscribe(msg => {
 
