@@ -1,4 +1,4 @@
-import { world, ItemStack, MinecraftItemTypes } from "mojang-minecraft";
+import { world, ItemStack, MinecraftItemTypes } from "@minecraft/server";
 import { xbLang } from "../xpackage/lang-test.js";
 //https://github.com/xBoyMinemc/Inventory-Tweaks/blob/main/scripts/lib/xboyTools/r.js
 
@@ -13,9 +13,9 @@ const xboyList = {
     // " n": "nameTag",
     // " name": "nameTag",
     // " nametag": "nameTag",
-    " n": "id",
-    " name": "id",
-    " nametag": "id",
+    " n": "typeId",
+    " name": "typeId",
+    " nametag": "typeId",
     " d": "data",
     " durability": "data"
 }
@@ -86,7 +86,7 @@ const xInventoryTweaks = function (msg) {
     let xboy = "xboy"
 
 
-    if (mmm == "" ) { xboy = "id" } else {
+    if (mmm == "" ) { xboy = "typeId" } else {
         xboy = xboyList[mmm]
     }
 
@@ -121,14 +121,14 @@ const xInventoryTweaks = function (msg) {
             let itemy = items[i]
 
             xItem2StackAnountKeys.forEach((itemName) => {
-                if (itemx.id.indexOf(itemName) != -1) xboy++;
-                if (itemy.id.indexOf(itemName) != -1) xboy++;  //部分物品不可堆叠 item，stack，err
+                if (itemx.typeId.indexOf(itemName) != -1) xboy++;
+                if (itemy.typeId.indexOf(itemName) != -1) xboy++;  //部分物品不可堆叠 item，stack，err
             })
             if (xboy) continue;
 
 
-            if (!itemx || !itemy || itemx.amount >= 64 || itemy.amount >= 64 || itemx.amount == 0 || itemy.amount == 0 || itemx.id == "" || itemy.id == "") { continue; }
-            if (!(itemx.data == itemy.data && itemx.id == itemy.id)) { continue; }
+            if (!itemx || !itemy || itemx.amount >= 64 || itemy.amount >= 64 || itemx.amount == 0 || itemy.amount == 0 || itemx.typeId == "" || itemy.typeId == "") { continue; }
+            if (!(itemx.data == itemy.data && itemx.typeId == itemy.typeId)) { continue; }
             
             if (itemx.amount + itemy.amount >= 128) continue;
             if (itemx.amount + itemy.amount <= 64) {
@@ -156,31 +156,31 @@ const xInventoryTweaks = function (msg) {
         .forEach((item, i) => {
             // inv.getComponent("inventory").container.setItem(i, item)
             // sender.runCommand("me "+diff)
-            i-=diff
-            if(mm.startsWith("c"))
+            // i-=diff
+            if(mm.startsWith("r"))
                 inv.getComponent("inventory").container.setItem(i>26?i-27:i+9, item)
             else
                 inv.getComponent("inventory").container.setItem(i, item)
-            if(!item || !item.id)diff++;
+            if(!item || !item.typeId)diff++;
         })
-    if(mm.startsWith("c"))
-    while(diff)
-        inv.getComponent("inventory").container.setItem(
-            (
-                inv.getComponent("inventory").container.size-diff>26
-                ?
-                inv.getComponent("inventory").container.size-diff---27
-                :
-                inv.getComponent("inventory").container.size-diff--+9
-            ),
-            new ItemStack(MinecraftItemTypes.cake,0)
-        )
-    else
-    while(diff)
-        inv.getComponent("inventory").container.setItem(
-            i,
-            new ItemStack(MinecraftItemTypes.cake,0)
-        )
+    // if(mm.startsWith("r"))
+    // while(diff)
+    //     inv.getComponent("inventory").container.setItem(
+    //         (
+    //             inv.getComponent("inventory").container.size-diff>26
+    //             ?
+    //             inv.getComponent("inventory").container.size-diff---27
+    //             :
+    //             inv.getComponent("inventory").container.size-diff--+9
+    //         ),
+    //         new ItemStack(MinecraftItemTypes.cake,0)
+    //     )
+    // else
+    // while(diff)
+    //     inv.getComponent("inventory").container.setItem(
+    //         diff--,
+    //         new ItemStack(MinecraftItemTypes.cake,0)
+    //     )
 
 }
 
@@ -244,7 +244,7 @@ world.events.beforeChat.subscribe(msg => {
 //         items.push(item)
 //     }
 
-//     items.sort((x, y) => x.id > y.id ? 1 : -1)
+//     items.sort((x, y) => x.typeId > y.typeId ? 1 : -1)
 //     .forEach((item, i) => {
 //         inv.getComponent("inventory").container.setItem(i, item)
 //     })
