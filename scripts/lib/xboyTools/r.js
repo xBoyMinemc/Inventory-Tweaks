@@ -1,5 +1,5 @@
 import { world, ItemStack, MinecraftItemTypes } from "@minecraft/server";
-import { xbLang } from "../xpackage/lang-test.js";
+// import { xbLang } from "../xpackage/lang-test.js";
 //https://github.com/xBoyMinemc/Inventory-Tweaks/blob/main/scripts/lib/xboyTools/r.js
 
 
@@ -80,8 +80,8 @@ const xInventoryTweaks = function (msg) {
     let z = -1
     if (message.startsWith('r')) { a = 1; z = -1; inv = sender; }
     if (message.startsWith('R')) { a = -1; z = 1; inv = sender; }
-    if (message.startsWith('c')) { a = 1; z = -1; inv = sender.getBlockFromViewVector(); }
-    if (message.startsWith('C')) { a = -1; z = 1; inv = sender.getBlockFromViewVector(); }
+    if (message.startsWith('c')) { a = 1; z = -1; inv = sender.getBlockFromViewDirection(); }
+    if (message.startsWith('C')) { a = -1; z = 1; inv = sender.getBlockFromViewDirection(); }
 
     let xboy = "xboy"
 
@@ -91,7 +91,7 @@ const xInventoryTweaks = function (msg) {
     }
 
     if (mmm == " help" || mmm == " h") {let CMD = "cmd"    ; let By = "By"
-      if (xbLang().startsWith("zh"))   {    CMD = "命令示例";     By = "分类依据"}
+      if (true)   {    CMD = "命令示例";     By = "分类依据"}
         Object.keys(xboyList).forEach((key) => {
             let color = Math.floor(Math.random() * 9) + 1;
             msg.sender.runCommand(`tellraw @s {"rawtext":[{"text":"|_____§r§l§${color}#${CMD}：${mm.slice(0, 1) + key} # ${By}：${xboyList[key]} "}]}`)
