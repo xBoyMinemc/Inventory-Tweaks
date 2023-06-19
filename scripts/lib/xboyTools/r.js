@@ -1,4 +1,4 @@
-import { world, ItemStack, MinecraftItemTypes } from "@minecraft/server";
+import { world } from "@minecraft/server";
 // import { xbLang } from "../xpackage/lang-test.js";
 //https://github.com/xBoyMinemc/Inventory-Tweaks/blob/main/scripts/lib/xboyTools/r.js
 
@@ -10,9 +10,9 @@ const xboyList = {
     " amount": "amount",
     " d": "data",
     " data": "data",
-    // " n": "nameTag",
-    // " name": "nameTag",
-    // " nametag": "nameTag",
+    " n": "nameTag",
+    " name": "nameTag",
+    " nametag": "nameTag",
     " n": "typeId",
     " name": "typeId",
     " nametag": "typeId",
@@ -20,43 +20,9 @@ const xboyList = {
     " durability": "data"
 }
 
-const xItem2StackAnount = {
-    "bow": 1,
-    "axe": 1,
-    "sword": 1,
-    "shovel": 1,
-    "hoe": 1,
-    "horsearmor": 1,
-    "helmet": 1,
-    "chestplate": 1,
-    "boots": 1,
-    // "leggings" : 1,
-    "egg": 1,
-    "bucket": 1,
-    "totem": 1,
-    "map": 1,
-    //"sign" : 16,
-    "book": 1,
-    "bee_nest": 1,
-    "soup": 1,
-    "stew": 1,
-    "bed": 1,
-    "boat": 1,
-    "cake": 1,
-    "campfire": 1,
-    "minecart": 1,
-    "clock": 1,
-    "compass": 1,
-    "potion": 1,
-    "honey_bottle": 1,
-    "record": 1,
-    "saddle": 1,
-    "shears": 1,
-    "shield": 1,
-    "shulker_shell": 1
-}
-
-const xItem2StackAnountKeys = Object.keys(xItem2StackAnount);
+const color = {
+    valueOf : ()=>Math.floor(Math.random() * 9) + 1
+};
 
 const xInventoryTweaks = function (msg) {
     
@@ -64,12 +30,6 @@ const xInventoryTweaks = function (msg) {
 
     let inv = sender
 
-//     for (let i = 0; i < inv.getComponent("inventory").container.size; i++) {
-//         let item = inv.getComponent("inventory").container.setItem(i,new ItemStack(MinecraftItemTypes["element"+i]))
-//     }
-// // for(let iii in new ItemStack(MinecraftItemTypes.element0))
-// // sender.runCommand("me "+iii+"==>"+new ItemStack(MinecraftItemTypes.element0)[iii])
-// return;
     let mm = message.toLowerCase();
 
     if (!(mm.startsWith("r") || mm.startsWith("c"))) return;
@@ -90,11 +50,13 @@ const xInventoryTweaks = function (msg) {
         xboy = xboyList[mmm]
     }
 
-    if (mmm == " help" || mmm == " h") {let CMD = "cmd"    ; let By = "By"
-      if (true)   {    CMD = "命令示例";     By = "分类依据"}
-        Object.keys(xboyList).forEach((key) => {
-            let color = Math.floor(Math.random() * 9) + 1;
-            msg.sender.runCommand(`tellraw @s {"rawtext":[{"text":"|_____§r§l§${color}#${CMD}：${mm.slice(0, 1) + key} # ${By}：${xboyList[key]} "}]}`)
+    if (mmm == " help" || mmm == " h") {
+        let CMD = "cmd"    ; let By = "By"
+        if (true)   {    
+            CMD = "命令示例";     By = "分类依据"}
+            Object.keys(xboyList).forEach((key) => {
+                msg/sender.sendMessage(`|_____§r§l§${+color}#${CMD}：${mm.slice(0, 1) + key} # ${By}：${xboyList[key]} `)
+                // msg.sender.runCommand(`tellraw @s {"rawtext":[{"text":"|_____§r§l§${color}#${CMD}：${mm.slice(0, 1) + key} # ${By}：${xboyList[key]} "}]}`)
         })
         return;
     }
@@ -103,43 +65,46 @@ const xInventoryTweaks = function (msg) {
 
 
     let items = []
-    let air = new ItemStack(MinecraftItemTypes.cake, 0, 0)
-    for (let i = 0; i < inv.getComponent("inventory").container.size; i++) {
+    const size = inv.getComponent("inventory").container.size
+    const air = undefined;//new ItemStack(MinecraftItemTypes.deny,33)
+    for (let i = 0; i < size; i++) {
         let item = inv.getComponent("inventory").container.getItem(i)
-        if (!item) { items.push(air); continue; }
+        if (!item) { /*items.push(air);*/ continue; }
         //
         items.push(item)
     }
 
+    while(items.length<size)
+        items.push(undefined);
+
     let xboySort = function () {
         let l = 0;
-        items.sort((x, y) => x[xboy] > y[xboy] ? a : z); //sort
+        items
+        =items
+        .reduce((acc,v)=>(v?acc.push(v):0,acc),[])  //item!=null
+        .sort((x, y) => x[xboy] > y[xboy] ? a : z); //sort
+        
+        while(items.length<size)
+            items.push(undefined);
 
-        for (let i = 1; i < inv.getComponent("inventory").container.size; i++) {
-            let xboy = 0;
+        for (let i = 1; i < size; i++) {
             let itemx = items[i - 1]
             let itemy = items[i]
+            if(!itemx || !itemy)continue;
 
-            xItem2StackAnountKeys.forEach((itemName) => {
-                if (itemx.typeId.indexOf(itemName) != -1) xboy++;
-                if (itemy.typeId.indexOf(itemName) != -1) xboy++;  //部分物品不可堆叠 item，stack，err
-            })
-            if (xboy) continue;
-
-
-            if (!itemx || !itemy || itemx.amount >= 64 || itemy.amount >= 64 || itemx.amount == 0 || itemy.amount == 0 || itemx.typeId == "" || itemy.typeId == "") { continue; }
-            if (!(itemx.data == itemy.data && itemx.typeId == itemy.typeId)) { continue; }
-            
-            if (itemx.amount + itemy.amount >= 128) continue;
-            if (itemx.amount + itemy.amount <= 64) {
+            if (itemx.amount >= itemx.maxAmount || itemy.amount >= itemy.maxAmount || itemx.amount == 0 || itemy.amount == 0 || itemx.typeId == "" || itemy.typeId == "") { continue; }
+            // if (!(itemx.data == itemy.data && itemx.typeId == itemy.typeId)) { continue; }
+            if(!itemx.isStackableWith(itemy))continue;
+            // if (itemx.amount + itemy.amount >= 128) continue;
+            if (itemx.amount + itemy.amount <= itemx.maxAmount) {
                 l++;
-                
+                // console.error(items[i].typeId)
                 items[i].amount = itemx.amount + itemy.amount;
                 items[i - 1] = air;
             
                 continue;
             };
-          //if (itemx.amount + itemy.amount <= 128)   and   (itemx.amount + itemy.amount >= 64)
+          //if (itemx.amount + itemy.amount <= 2*itemx.maxAmount)   and   (itemx.amount + itemy.amount >= 1*itemx.maxAmount)
           //then
             l++;
             items[i - 1].amount = itemx.amount + itemy.amount - 64;
@@ -152,35 +117,14 @@ const xInventoryTweaks = function (msg) {
     xboySort()
     let diff = 0;
 
-    items.sort((x, y) => newSort(x[xboy] , y[xboy],sender) ? a : z)
+    items.sort((x, y) => newSort(x[xboy] , y[xboy],sender) ?a:z)
         .forEach((item, i) => {
-            // inv.getComponent("inventory").container.setItem(i, item)
-            // sender.runCommand("me "+diff)
-            // i-=diff
             if(mm.startsWith("r"))
-                inv.getComponent("inventory").container.setItem(i>26?i-27:i+9, item)
+                inv.getComponent("inventory").container.setItem(i>=(size-9)?i-(size-9):i+9, item) // 9==> hotSlotCount
             else
                 inv.getComponent("inventory").container.setItem(i, item)
-            if(!item || !item.typeId)diff++;
+            if(!item)diff++;
         })
-    // if(mm.startsWith("r"))
-    // while(diff)
-    //     inv.getComponent("inventory").container.setItem(
-    //         (
-    //             inv.getComponent("inventory").container.size-diff>26
-    //             ?
-    //             inv.getComponent("inventory").container.size-diff---27
-    //             :
-    //             inv.getComponent("inventory").container.size-diff--+9
-    //         ),
-    //         new ItemStack(MinecraftItemTypes.cake,0)
-    //     )
-    // else
-    // while(diff)
-    //     inv.getComponent("inventory").container.setItem(
-    //         diff--,
-    //         new ItemStack(MinecraftItemTypes.cake,0)
-    //     )
 
 }
 
@@ -223,9 +167,10 @@ const newSort =(x,y,sender)=>{
     return x > y;
 }
 
-
-world.events.beforeChat.subscribe(msg => {
-
+;world
+.afterEvents
+.chatSend
+.subscribe(msg => {
     xInventoryTweaks(msg)
 })
 
@@ -237,7 +182,7 @@ world.events.beforeChat.subscribe(msg => {
 //     ///inv : entity or chest and so on
 //     let items = []
 //     let air = new ItemStack(MinecraftItemTypes.air, 0, 0)
-//     for (let i = 0; i < inv.getComponent("inventory").container.size; i++) {    //get inventory item
+//     for (let i = 0; i < size; i++) {    //get inventory item
 //         let item = inv.getComponent("inventory").container.getItem(i)
 //         if (!item) { items.push(air); continue; }
 //         //
