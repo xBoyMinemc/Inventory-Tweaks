@@ -8,16 +8,16 @@ const xboyList = {
     " count": "amount",
     " a": "amount",
     " amount": "amount",
-    " d": "data",
-    " data": "data",
+    // " d": "data",
+    // " data": "data",
     " n": "nameTag",
     " name": "nameTag",
     " nametag": "nameTag",
     " n": "typeId",
     " name": "typeId",
     " nametag": "typeId",
-    " d": "data",
-    " durability": "data"
+    // " d": "data",
+    // " durability": "data"
 }
 
 const color = {
@@ -40,10 +40,16 @@ const xInventoryTweaks = function (msg) {
     let z = -1
     if (message.startsWith('r')) { a = 1; z = -1; inv = sender; }
     if (message.startsWith('R')) { a = -1; z = 1; inv = sender; }
-    if (message.startsWith('c')) { a = 1; z = -1; inv = sender.getBlockFromViewDirection(); }
-    if (message.startsWith('C')) { a = -1; z = 1; inv = sender.getBlockFromViewDirection(); }
+    if (message.startsWith('c')) { a = 1; z = -1; inv = sender.getBlockFromViewDirection().block; }
+    if (message.startsWith('C')) { a = -1; z = 1; inv = sender.getBlockFromViewDirection().block; }
 
     let xboy = "xboy"
+
+    if(!inv.getComponent("minecraft:inventory")?.container){
+        inv = sender.getEntitiesFromViewDirection({maxDistance:8})?.[0]?.entity;
+        if(!sender.hasTag("op") && inv.typeId === "minecraft:player")
+        return sender.sendMessage(Math.random()>0.95 ? "# 带有": "# 你没对准容器方块或实体" )
+    }
 
 
     if (mmm == "" ) { xboy = "typeId" } else {
@@ -52,10 +58,12 @@ const xInventoryTweaks = function (msg) {
 
     if (mmm == " help" || mmm == " h") {
         let CMD = "cmd"    ; let By = "By"
+        sender.sendMessage(`|_____§r§l§更新# OP更新：可以使用c整理面向的生物的背包，带有op这个tag的玩家可以整理玩家的背包 `)
+
         if (true)   {    
             CMD = "命令示例";     By = "分类依据"}
             Object.keys(xboyList).forEach((key) => {
-                msg/sender.sendMessage(`|_____§r§l§${+color}#${CMD}：${mm.slice(0, 1) + key} # ${By}：${xboyList[key]} `)
+                sender.sendMessage(`|_____§r§l§${+color}#${CMD}：${mm.slice(0, 1) + key} # ${By}：${xboyList[key]} `)
                 // msg.sender.runCommand(`tellraw @s {"rawtext":[{"text":"|_____§r§l§${color}#${CMD}：${mm.slice(0, 1) + key} # ${By}：${xboyList[key]} "}]}`)
         })
         return;
@@ -65,10 +73,10 @@ const xInventoryTweaks = function (msg) {
 
 
     let items = []
-    const size = inv.getComponent("inventory").container.size
+    const size = inv.getComponent("minecraft:inventory").container.size
     const air = undefined;//new ItemStack(MinecraftItemTypes.deny,33)
     for (let i = 0; i < size; i++) {
-        let item = inv.getComponent("inventory").container.getItem(i)
+        let item = inv.getComponent("minecraft:inventory").container.getItem(i)
         if (!item) { /*items.push(air);*/ continue; }
         //
         items.push(item)
