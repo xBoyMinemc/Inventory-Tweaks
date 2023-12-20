@@ -27,7 +27,7 @@ archive.finalize();
 
 // 监听archive的'drain'事件，以确保数据被写入输出流
 output1.on('close', () => {
-    console.log(`ZIP文件已成功创建，共包含 ${archive.pointer()} 字节`);
+    console.log(`${name} 文件已成功创建，共包含 ${archive.pointer()} 字节`);
   });
 // output2.on('close', () => {
 //     console.log(`ZIP文件已成功创建，共包含 ${archive.pointer()} 字节`);
