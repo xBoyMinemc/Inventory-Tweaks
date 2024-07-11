@@ -1,4 +1,4 @@
-import { GameMode, system, world } from "@minecraft/server";
+import { GameMode, system, world, EquipmentSlot } from "@minecraft/server";
 //https://github.com/xBoyMinemc/Inventory-Tweaks/blob/main/scripts/lib/xboyTools/r.js
 
 
@@ -135,15 +135,16 @@ system.runInterval(()=>{
     playerPlaceBlockMap.forEach((v,k,m)=>k<(system.currentTick-1)?m.delete(k):0)
     playerPlaceBlockMap.has(system.currentTick)?0:playerPlaceBlockMap.set(system.currentTick,new Map())
     playerPlaceBlockMap.has(system.currentTick+1)?0:playerPlaceBlockMap.set(system.currentTick+1,new Map())
+
+
+    // player in Survival,List
+    playerSurvivalList.clear()
+    world.getPlayers({gameMode:GameMode.survival}).forEach(player=>player&&playerSurvivalList.add(player.id))
+
 })
 
 
 world.beforeEvents.playerPlaceBlock.subscribe(({player,itemStack})=>{
-
-    // player in Survival,List
-    playerSurvivalList.clear()
-    world.getPlayers({gameMode:GameMode.survival}).forEach(player=>playerSurvivalList.add(player.id))
-
 
     // player.sendMessage("beforeEvents system.currentTick "+system.currentTick)
     playerPlaceBlockMap.get(system.currentTick).set(player.id,itemStack)
@@ -226,3 +227,33 @@ world.beforeEvents.playerPlaceBlock.subscribe(({player,itemStack})=>{
 // 放置方块导致的物品需要替补，挖掘导致的工具损毁
 // 会替换一样的方块或工具，未来可能支持替换同类工具，以及保留最后一点耐久
 // world.sendMessage("自动替换开发中")
+
+
+// ######################################################################################################################################
+// 自动图腾替换，无开关，有图腾自动装
+
+system.runInterval(()=>{
+    const players = world.getAllPlayers();
+    players.forEach(player=>{
+        if(!player)return;
+        
+        const Equipment = player.getComponent("minecraft:equippable")
+        const isTT = Equipment.getEquipment(EquipmentSlot.Offhand)
+        // world.sendMessage('* '+isTT)
+        if(!isTT){
+
+        const s = player.getComponent("minecraft:inventory").container;
+        let i = s.size;
+        
+                while(i--){
+                    const _item = s.getItem(i)
+                    if(!_item)continue
+                    if(_item.typeId === "minecraft:totem_of_undying"){
+                        Equipment.setEquipment(EquipmentSlot.Offhand,_item)? s.setItem(i, null):0
+                        break
+                    }
+                    "捏"
+                }
+        }
+    })
+})

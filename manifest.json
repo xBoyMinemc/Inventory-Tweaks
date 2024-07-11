@@ -1,25 +1,25 @@
 {
     "format_version": 2,
     "header": {
-        "description": "[自动替换图腾更新]聊天栏输入r整理背包\n\n对着箱子输入c整理箱子(生物)\n输入r help或c help获取帮助信息\nr或c大小写的整理顺序相反\n####玩耍QQ群：122957051\n作者:云梦梦梦子\n机构:云梦•云梦泽\n有事没事来吹水啊，mc群除了mc什么都聊哒\n群里人才很多，说话又好听，留英博士，留美学生，985保送，大烧零，孬loli正太少爷应有尽有，更有开服多年穷如狗的哈皮管理",
-        "name": "[自动替换图腾更新]§2§lInventory-Tweaks -1.20.5x- R键整理-聊天栏版",
+        "description": "聊天栏输入r整理背包\n\n对着箱子输入c整理箱子(生物)\n输入r help或c help获取帮助信息\nr或c大小写的整理顺序相反\n####玩耍QQ群：122957051\n作者:云梦梦梦子",
+        "name": "§2§lInventory-Tweaks -1.21.0x- R键整理-聊天栏版",
         "uuid": "9b800341-cf5f-bb2e-de3f-0a6d1d5323e1",
-        "version": [1, 20, 50],
-        "min_engine_version": [ 1, 20, 50 ]
+        "version": [1, 21, 1],
+        "min_engine_version": [ 1, 21, 0 ]
     },
     "modules": [
         {
-            "description": "§e§lInventory-Tweaks-1.20.50- R键整理-聊天栏版",
+            "description": "§e§lInventory-Tweaks-1.21.0x- R键整理-聊天栏版",
             "type": "script",
             "uuid": "10101e99-abb4-4400-b521-71e9d98a3114",
-            "version": [1, 20, 50],
+            "version": [1, 21, 1],
             "entry": "scripts/main/main.js"
         }
     ],
     "dependencies": [
         {
             "module_name": "@minecraft/server",
-            "version": "1.8.0-beta"
+            "version": "1.12.0-beta"
         }
     ]
 }
