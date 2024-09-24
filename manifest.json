@@ -2,24 +2,24 @@
     "format_version": 2,
     "header": {
         "description": "聊天栏输入r整理背包\n\n对着箱子输入c整理箱子(生物)\n输入r help或c help获取帮助信息\nr或c大小写的整理顺序相反\n####玩耍QQ群：122957051\n作者:云梦梦梦子",
-        "name": "§2§lInventory-Tweaks -1.21.0x- R键整理-聊天栏版",
+        "name": "§2§lInventory-Tweaks -1.21.30 ~ 1.21.3x- R键整理-聊天栏版",
         "uuid": "9b800341-cf5f-bb2e-de3f-0a6d1d5323e1",
-        "version": [1, 21, 1],
-        "min_engine_version": [ 1, 21, 0 ]
+        "version": [1, 21, 31],
+        "min_engine_version": [ 1, 21, 30 ]
     },
     "modules": [
         {
-            "description": "§e§lInventory-Tweaks-1.21.0x- R键整理-聊天栏版",
+            "description": "§e§lInventory-Tweaks-1.21.3x- R键整理-聊天栏版",
             "type": "script",
             "uuid": "10101e99-abb4-4400-b521-71e9d98a3114",
-            "version": [1, 21, 1],
+            "version": [1, 21, 31],
             "entry": "scripts/main/main.js"
         }
     ],
     "dependencies": [
         {
             "module_name": "@minecraft/server",
-            "version": "1.12.0-beta"
+            "version": "1.15.0-beta"
         }
     ]
 }
